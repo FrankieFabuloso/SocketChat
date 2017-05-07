@@ -1,0 +1,18 @@
+.form.form-body--log-in.invisible 
+  form.form-log-in
+    h3 Log-in
+    .row.form-row-email
+      .twelve.columns
+        label( for="Email") Email
+        input.u-full-width( type='email' placeholder='human@email.org' name='email')
+    .row.form-row-username
+      .twelve.columns
+        label( for="username") Username
+        input.u-full-width( type='text' placeholder='ChatmanJones' name='name')
+    .row.form-row-password
+      .twelve.columns
+        label( for="Password") Password
+        input.u-full-width( type='password' placeholder='Password' name='password')
+    .row.form-row-submit
+      .button.button-danger#log_in_cancel_button(value="Cancel") Cancel
+      input.button-primary(type="submit" value="Submit")

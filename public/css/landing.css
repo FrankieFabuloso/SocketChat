@@ -7,6 +7,16 @@
 
 }
 
+.form-header {
+  width: 90%;
+  text-align: left;
+  border-bottom: 1px solid #e3e3e3;
+}
+.buttons {
+  display: flex;
+  width: 30%;
+  justify-content: space-between;
+}
 .button-danger{
   background-color: red;
   color: white;
@@ -33,7 +43,7 @@
   height: 100vh;
 }
 
-.form.form-body--log-in {
+.form.form-body--log-in, .form.form-body--sign-up {
   width: 50%;
   min-width: 300px;
 }
@@ -42,7 +52,8 @@
   display: none;
 }
 
-form.form-log-in {
+form.form-log-in, form.form-sign-up {
+  padding-top: 15px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -71,6 +82,6 @@ form.form-log-in {
   }
 }
 
-#log_in_button {
+#log_in_button, #sign_up_button {
   background: white;
 }
