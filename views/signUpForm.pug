@@ -1,5 +1,5 @@
 .form.form-body--sign-up.invisible 
-  form.form-sign-up
+  form.form-sign-up( method='POST', action='/user/sign-up' )
     h3.form-header  Sign-up
     .row.form-row-email
       .twelve.columns
@@ -8,7 +8,7 @@
     .row.form-row-username
       .twelve.columns
         label( for="username") Username
-        input.u-full-width( type='text' placeholder='ChatmanJones' name='name')
+        input.u-full-width( type='text' placeholder='ChatmanJones' name='username')
     .row.form-row-password
       .twelve.columns
         label( for="Password") Password

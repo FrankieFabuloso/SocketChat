@@ -24,8 +24,7 @@ block content
           div.converstaion_content
             span.converstaion_title
               | Convo -
-            span.current_convorsation
-              | I like dogs
+            span.current_convorsation= chat_room_title || 'No Chats Yet :['
         .coversation_content
           +chatroom_messages
         .coversation_footer

@@ -24,7 +24,9 @@ const UNSUBSCRIBE_FROM_CHATROOM = 'DELETE FROM client_chat_room where client_id=
 
 const LOOK_UP_CHAT_ROOM = 'SELECT * FROM chat_room WHERE name LIKE $1'
 
+const ADD_NEW_USER = 'INSERT INTO client( email, username, password, salt ) VALUES( $1, $2, $3, $4) RETURNING *'
 
+const FIND_BY_USERNAME = 'SELECT * FROM client WHERE username = $1'
 
 const Chatroom = {
   suscribe: (user_id, chat_room_id) => db.none(SUBSCRIBE_TO_CHAT_ROOM, [user_id, chat_room_id]),
@@ -34,7 +36,9 @@ const Chatroom = {
 }
 
 const User = {
-  getAllChats: (user_id) => db.any(GET_ALL_USER_CHATS, [user_id]),
+  signUp: (data) => db.one( ADD_NEW_USER, data ),
+  findByUsername: (username) => db.one( FIND_BY_USERNAME, [username] ),
+  getAllChats: (user_id) => db.any( GET_ALL_USER_CHATS, [user_id] ),
   sendMessage: (chat_room_id, client_id, message_body) => db.none(ADD_NEW_MESSAGE, [chat_room_id, client_id, message_body])
 }
 
