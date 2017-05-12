@@ -16,8 +16,10 @@ CREATE TABLE IF NOT EXISTS chat_room (
 DROP TABLE IF EXISTS client CASCADE;
 CREATE TABLE IF NOT EXISTS client (
   id SERIAL PRIMARY KEY,
-  name VARCHAR(32),
-  password VARCHAR(32)
+  email VARCHAR(64) UNIQUE,
+  username VARCHAR(32) UNIQUE,
+  password VARCHAR(128),
+  salt VARCHAR(128)
 );
 
 DROP TABLE IF EXISTS client_chat_room CASCADE;

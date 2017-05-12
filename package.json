@@ -5,6 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon app.js",
+    "db:drop": "dropdb SocketChat",
+    "db:create": "createdb SocketChat",
+    "db:init": "psql SocketChat < ./database/schema.sql",
+    "db:reset": "npm run db:drop && npm run db:create && npm run db:init",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -12,12 +16,14 @@
   "dependencies": {
     "body-parser": "^1.16.1",
     "cookie-parser": "^1.4.3",
+    "cookie-session": "^2.0.0-beta.1",
+    "crypto-js": "^3.1.9-1",
     "express": "^4.14.1",
     "express-session": "^1.15.1",
     "passport": "^0.3.2",
     "pg-promise": "^5.5.8",
     "pug": "^2.0.0-beta11",
-    "ractive": "^0.8.11",
+    "serve-favicon": "^2.4.2",
     "socket.io": "^1.7.3"
   },
   "devDependencies": {

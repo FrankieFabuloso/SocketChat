@@ -1,8 +1,11 @@
 extends layout
-block scripts
-  link(rel='stylesheet', type='text/css', href='/css/landing.css')
 block content
-  body
-    .container
-    .landing
-      a.button#log_in_button(href="/home") Log In
+  .landing
+    .landing-page.form-container
+      h1.landing-page.app-title Socket Chat
+      .landing-page.form-wrapper
+        include signUpForm
+        include logInForm
+        .landing-page.buttons 
+          .landing-page.button.log-in-button Log In
+          .landing-page.button.sign-up-button Sign Up

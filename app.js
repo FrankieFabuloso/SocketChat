@@ -1,93 +1,58 @@
 const express = require('express')
+const cookieParser = require( 'cookie-parser' )
+const cookieSession = require( 'cookie-session')
 const app = express()
 const server = require('http').createServer(app)
 const io = require('socket.io')(server)
-
+const favicon = require('serve-favicon');
 const bodyParser = require('body-parser')
 const path = require('path')
-const session = require('express-session')
+const SHA256 = require('crypto-js/sha256')
 const {User, Chatroom} = require('./database/db.js')
+
+app.use(favicon(__dirname + '/public/images/favicon.ico'));
+app.use(express.static( path.join(__dirname, 'public') ));
 
 app.set('view engine', 'pug')
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
-app.use(session({
-  secret:'mystinkyfarts',
-  resave: false,
-  saveUninitialized: true,
-}))
+app.use( cookieParser('F4@RT$') )
+app.use( cookieSession({
+  key: 'app.sess',
+  secret: 'SUPERsekret'
+}) )
 
-app.use(express.static( path.join(__dirname, 'public') ));
 
-app.get('/', function (req, res) {
-  if( !req.session.user_id ){
-    req.session.user_id = 1
-  } else {
-    console.log('req.session.user_id:',req.session.user_id )
-  }
+// --- ROUTES ----
+const render = require('./routes/render')
+const chatroom = require('./routes/chatroom')
+const user = require('./routes/user')
 
-  res.render('landing', {title: 'Messager', n: req.session.user_id})
-})
+app.use( '/', render )
+app.use( '/chatroom', chatroom )
+app.use( '/user', user )
 
-app.get('/home', function (req, res) {
-  if( !req.session.user_id ){
-    req.session.user_id = 1
-  } else {
-    console.log('req.session.user_id:',req.session.user_id )
-  }
-
-  console.log('req.session.user_id:',req.session.user_id )
-  console.log('User, Chatroom:', User, Chatroom)
-  console.log('req.session.user_id:',req.session.user_id )
-  let user_id = '1'
-  console.log('typeof(user_id):', typeof(user_id))
-  Promise.all([User.getAllChats(user_id), Chatroom.getAllMessages(1)])
-  .then(results => {
-    res.render('home', {
-      user_chat_rooms: results[0],
-      chat_room_messages: results[1]
-    })
-  })
-})
-
-app.get('/home/chatroom', function( req, res) {
-  console.log('req.query:', req.query)
-  const { chatroom_name } = req.query
-  //get the id for the
-  Chatroom.getChatroomIDByName(chatroom_name)
-  .then(result => {
-    const {id} = result
-    console.log('id:', id)
-    Chatroom.getAllMessages(id)
-    .then( messages => {
-      res.send(messages)
-    })
-  })
-})
-
+//  add render middleware from routes/render
 server.listen(3000, function () {
   console.log('Example app listening on port 3000!')
 })
 
 // ~ ~ ~ ~ Socket.io things ~ ~ ~ ~
-io.on('connection', function(client) {
+io.on('connection', client => {
   console.log('client connetced...')
 
-  client.on('join', function(data) {
-    console.log(data)
+  client.on('join', data =>  {
     client.emit('messages', "Hello, from the sever...")
   })
 
-  client.on('messages', function(data, req) {
-    const {newMessage, currentChatroom} = data
-    // const {user_id} = req.session
-    // console.log('----->user_id', user_id)
+  client.on('messages', (data, req) => {
+    const { currentChatroom, newMessage, user_id } = data
+
     Chatroom.getChatroomIDByName(currentChatroom)
     .then(chatroom =>
-      User.sendMessage(chatroom.id, 1, newMessage)
+      User.sendMessage(chatroom.id, user_id, newMessage)
       .then(_ => {
-        console.log('data:', data)
-        io.emit('board', data)
+        io.emit('postMessage', data)
       })
     )
   })

@@ -1,43 +1,34 @@
 extends layout
-block scripts
-  script(src="https://use.fontawesome.com/b14bb03d41.js")
-  script(src="/scripts/home.js")
-  link(rel='stylesheet', type='text/css', href='/css/home.css')
 block content
-  .container.navbar_container
-    .row.navbar
-      .seven.columns
-        span.title
-          h3
-            |SocketChat
-      .five.columns
-        input.search_input.input_width(type="email" placeholder="test@mailbox.com" id="exampleEmailInput")
-        button.search_button
-          i.fa.fa-search
-  .container
-    h5 Chat
-    .row.message_container
-      .three.columns.message_history
-          +chatrooms
-      .nine.columns.message_box_wrapper
-        .coversation_header
-          div.converstaion_content
-            span.converstaion_title
-              | Convo -
-            span.current_convorsation
-              | I like dogs
-        .coversation_content
-          +chatroom_messages
-        .coversation_footer
-          textarea.u-full-width(placeholder="Hi Dave …" id="newMessage")
-
-mixin chatrooms
-  each chatroom in user_chat_rooms
-    .coversation= chatroom.name
-
-mixin chatroom_messages
-  each message in chat_room_messages
-    if message.client_id === 1
-      .message_text.mine= message.message_body
-    else
-      .message_text.theirs= message.message_body
+  .home( data=`${user_id}`)
+    .container.navbar-container
+      .row.navbar
+        .five.columns.home-title
+          span.title
+            h3
+              |SocketChat
+        .seven.columns.home--search-bar
+          input.home--search-input(type="email" placeholder="test@mailbox.com" id="exampleEmailInput")
+          button.home--search_button
+            i.fa.fa-search
+      h5.row.post-navbar Chat
+    .massages.container
+      .row.message-container
+        .three.columns.message-history--items
+          each chatroom in user_chat_rooms
+            .chatroom-name= chatroom.name
+            
+        .nine.columns.message-box-wrapper
+          .chatroom-header
+            div.conversation-content
+              span.conversation-title
+                | Convo -
+              span.current-conversation= chat_room_title || 'No Chats Yet :['
+          .chatroom-content
+            each message in chat_room_messages
+              if message.client_id === 1
+                .message-text.mine= message.message_body
+              else
+                .message_text.theirs= message.message_body
+          .chatroom-footer
+            textarea.u-full-width(placeholder="Hi Dave …" id="newMessage")

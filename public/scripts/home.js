@@ -1,74 +1,89 @@
-const updateChatroomName = (chatroom_name) => {
-  $("span.current_convorsation").text(chatroom_name)
-  $(".converstaion_content").effect('bounce', 'slow')
+const updateChatroomName = chatroomName => {
+  $("span.current-conversation").text(chatroomName)
+  $(".conversation-content").effect('bounce', 'slow')
 }
 
 const loadAndPositionStartView = () => {
-  $('.coversation_content').scrollTop($('.coversation_content')[0].scrollHeight)
+  const chatroomContent = $( '.chatroom-content' )
+  chatroomContent.scrollTop( chatroomContent.prop("scrollHeight") )
 }
 
 const loadSelectedChatRoom = (event) => {
-  let myThis = event.target
-  const chatroom_name = $(myThis).text()
+  const clickedChatroom = $(event.target)
+  const chatroomName = clickedChatroom.text()
   //change chatroom name in view
-  updateChatroomName(chatroom_name)
+  updateChatroomName(chatroomName)
+
   $.ajax({
-    url: "http://localhost:3000/home/chatroom",
-    data: { chatroom_name }
-  }).done(function(results){
-    populateChatroom( results )
-  })
+    url: "http://localhost:3000/chatroom",
+    data: { chatroom_name: chatroomName }
+  }).done( populateChatroom )
 }
 
 const clearConversationContent = () => {
-  $('.coversation_content').empty()
+  $('.chatroom-content').empty()
 }
 
 const populateChatroom = ( messages ) => {
+  const chatroomContent = $('.chatroom-content')
+  const user_id = $('.home').attr('data')
+
   clearConversationContent()
-  for( let message of messages) {
-    let messageDiv = $("<div>")
-    if(message.client_id == 1) {
-      messageDiv.addClass('message_text mine').text(message.message_body)
+
+  messages.forEach( (message) => {
+    if(message.client_id == user_id) {
+      chatroomContent
+        .append( $("<div>")
+          .addClass('message-text mine')
+          .text(message.message_body) )
     } else {
-      messageDiv.addClass('message_text theirs').text(message.message_body)
+      chatroomContent
+        .append( $("<div>")
+            .addClass('message-text theirs')
+            .text(message.message_body) )
     }
-    $('.coversation_content').append(messageDiv)
-  }
+  })
+  loadAndPositionStartView()
 }
 
+
+
+
+// - - - - - DOM READY - - - - -
 $(document).ready(function() {
+  const user_id = $('.home').attr('data')
+
   loadAndPositionStartView()
 
-  $('.coversation').on('click', loadSelectedChatRoom)
-
+  $('.chatroom-name').on('click', loadSelectedChatRoom)
 // socket stuff
   var socket = io.connect('http://localhost:3000');
     socket.on('connect', function(data) {
         socket.emit('join', 'Hello World from client');
     });
 
-    socket.on('board', function(data){
+    socket.on('postMessage', function(data) {
+      const chatroomContent = $('.chatroom-content')
+      const newMessageTextDiv = $("<div>")
 
-      let { newMessage } = data
-      let newMessageTextDiv = $("<div>").addClass("message_text mine").text(newMessage)
-      $('.coversation_content').append(newMessageTextDiv)
-      $('.coversation_content').scrollTop = $('.coversation_content').scrollHeight
-      $('.coversation_content').scrollTop($('.coversation_content')[0].scrollHeight)
+      if( data.user_id === user_id ) {
+        newMessageTextDiv.addClass("message-text mine").text(data.newMessage)
+      } else {
+        newMessageTextDiv.addClass("message-text theirs").text(data.newMessage)
+      }
+
+      chatroomContent.append(newMessageTextDiv)
+      chatroomContent.scrollTop( chatroomContent.prop("scrollHeight") )
     })
 
-    socket.on('messages', function(data){
-    })
+  $('#newMessage').keypress(function(event){
+    const newMessage = $(this).val()
+    const currentChatroom = $('.current-conversation').text()
 
-
-  $('#newMessage').keypress(function(e){
-    if (e.keyCode == 13  && !e.shiftKey ){
-      e.preventDefault()
-
-      let newMessage = $(this).val()
+    if (event.keyCode == 13  && !event.shiftKey ){
+      event.preventDefault()
       $(this).val('')
-      let currentChatroom = $('.current_convorsation').text()
-      socket.emit('messages', {newMessage, currentChatroom} )
+      socket.emit('messages', { newMessage, currentChatroom, user_id } )
     }
   })
 })
