@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 const router = express.Router()
-const {User} = require('../../../database/db.js')
+const {User} = require('../../database/db.js')
 const crypto = require('crypto')
 const SHA256 = require("crypto-js/sha256");
 
@@ -40,10 +40,12 @@ router.post('/login', function( req, res, next ) {
   User.findByUsername( username )
     .then( foundUser => {
       if( checkValidLogin(foundUser.salt, foundUser.password, password ) ){
-        req.session.user_id = foundUser.id
-        req.session.username = foundUser.username
-        req.session.password = foundUser.password
-        res.cookie('user_id', foundUser.id, { maxAge: 900000, httpOnly: false });
+
+        req.session = {
+          user_id: foundUser.id,
+          username: foundUser.username
+        }
+        res.cookie('user_id', foundUser.id, { maxAge: 6000000, httpOnly: true });
         res.redirect('/home')
       } else {
         res.render('landing', { error: 'Password you entered is incorrect!' })

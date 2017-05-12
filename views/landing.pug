@@ -1,14 +1,11 @@
 extends layout
-block scripts
-  link(rel='stylesheet', type='text/css', href='/css/landing.css')
-  script(src="/scripts/landing.js")
 block content
-  body
-    .form-container
-      h1.app-title Sockeet Chat
-      .form-wrapper
+  .landing
+    .landing-page.form-container
+      h1.landing-page.app-title Socket Chat
+      .landing-page.form-wrapper
         include signUpForm
         include logInForm
-        .buttons 
-          .button#log_in_button Log In
-          .button#sign_up_button Sign Up
+        .landing-page.buttons 
+          .landing-page.button.log-in-button Log In
+          .landing-page.button.sign-up-button Sign Up

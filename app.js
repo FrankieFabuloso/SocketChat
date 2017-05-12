@@ -10,10 +10,8 @@ const path = require('path')
 const SHA256 = require('crypto-js/sha256')
 const {User, Chatroom} = require('./database/db.js')
 
-// --- ROUTES ----
-const render = require('./routes/render')
-const chatroom = require('./routes/API/chatroom')
-const user = require('./routes/API/user')
+app.use(favicon(__dirname + '/public/images/favicon.ico'));
+app.use(express.static( path.join(__dirname, 'public') ));
 
 app.set('view engine', 'pug')
 app.use(bodyParser.json())
@@ -24,8 +22,11 @@ app.use( cookieSession({
   secret: 'SUPERsekret'
 }) )
 
-app.use(favicon(__dirname + '/public/images/favicon.ico'));
-app.use(express.static( path.join(__dirname, 'public') ));
+
+// --- ROUTES ----
+const render = require('./routes/render')
+const chatroom = require('./routes/chatroom')
+const user = require('./routes/user')
 
 app.use( '/', render )
 app.use( '/chatroom', chatroom )
@@ -37,14 +38,14 @@ server.listen(3000, function () {
 })
 
 // ~ ~ ~ ~ Socket.io things ~ ~ ~ ~
-io.on('connection', function(client) {
+io.on('connection', client => {
   console.log('client connetced...')
 
-  client.on('join', function(data) {
+  client.on('join', data =>  {
     client.emit('messages', "Hello, from the sever...")
   })
 
-  client.on('messages', function(data, req) {
+  client.on('messages', (data, req) => {
     const { currentChatroom, newMessage, user_id } = data
 
     Chatroom.getChatroomIDByName(currentChatroom)

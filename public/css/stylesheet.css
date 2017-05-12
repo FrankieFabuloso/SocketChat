@@ -1,0 +1,275 @@
+/* - - - - -  Landing Page CSS - - - - - */
+
+.app-title {
+  display: flex;
+  align-items:center;
+  justify-content: center;
+  color: #33C3F0;
+  text-shadow: 2px 2px  rgba(0,0,0,0.2);
+}
+
+.landing {
+  background: url(/images/old-cells.jpg) no-repeat center center fixed;
+}
+.landing-page.buttons {
+  display: flex;
+  width: 30%;
+  justify-content: space-between;
+}
+
+.landing-page.form-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-size: cover;
+}
+
+.landing-page.form-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100vh;
+}
+
+
+.app-title {
+  display: flex;
+  align-items:center;
+  justify-content: center;
+  color: #33C3F0;
+  text-shadow: 2px 2px  rgba(0,0,0,0.2);
+
+}
+
+.form-header {
+  width: 90%;
+  text-align: left;
+  border-bottom: 1px solid #e3e3e3;
+}
+.button-danger{
+  background-color: red;
+  color: white;
+}
+
+.button-danger:hover {
+  color: white;
+}
+
+
+.form.form-body--log-in, .form.form-body--sign-up {
+  width: 50%;
+  min-width: 300px;
+}
+
+.invisible {
+  display: none;
+}
+
+form.form-log-in, form.form-sign-up {
+  padding-top: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  border-radius: 4px;
+  box-shadow: 0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19)
+}
+
+.form-row-email, .form-row-username,
+.form-row-password, .form-row-submit {
+  width: 80%;
+}
+
+.form-row-email {
+  padding-top: 15px;
+}
+
+
+/* - - - - -  Home Page CSS - - - - - */
+.home {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.navbar {
+  width: 100%;
+  border-bottom: 1px solid #b8b8b8;
+  text-shadow: 2px 2px  rgba(0,0,0,0.2);
+}
+.home--search-bar {
+  display: flex;
+
+}
+
+.home--search-input {
+  flex-grow: 1;
+}
+
+.home--search-input, .home--search_button {
+  margin-top: 15px;
+}
+
+.message-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 4%;
+}
+
+.message-history--items, .message-box-wrapper {
+  padding: 10px;
+  border: 1px solid black;
+  border-radius: 5px;
+  box-shadow: 0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19)
+
+}
+
+.row.post-navbar {
+  padding-top: 15px;
+  margin-bottom: 0px;
+}
+@media (min-width: 750px) {
+  .messages.container {
+    height: 100%
+  }
+
+  .message-container {
+    display: flex;
+    flex-direction: row;
+  }
+    .messages--left-bar, .message-box-wrapper {
+    padding: 10px;
+  }
+
+  .message-box-wrapper{
+    flex-grow: 1;
+    margin-left: 1%;
+  }
+}
+
+
+
+
+
+
+
+
+
+.massages.container {
+  display: flex;
+  flex-grow: 1;
+}
+
+.message-container {
+  width: 100%;
+}
+
+.message-box-wrapper {
+  flex-grow: 1;
+}
+
+@media (min-width: 750px){
+  /*.row {
+    width: 90%;
+  }*/
+  .form-row-submit {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .form-row-submit:after {
+    content: none;
+  }
+}
+
+.log-in-button, .sign-up-button {
+  background: white;
+}
+
+
+
+
+
+
+
+/* - - - - - SOME OTHER STYLES - - - - - - */
+h3 {
+  margin: 20px 0px 0px 0px;
+}
+
+.search-input, .search-button {
+  margin-top: 10px;
+}
+
+.title {
+  margin-right: 10%;
+}
+
+.seven, .five {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Right Message Box Containter*/
+ .message-box-wrapper {
+   display: flex;
+   flex-flow: column;
+ }
+
+ .chatroom-name {
+   transition: all 0.7s ease;
+   border-radius: 2px;
+   font-size: 12px;
+   height: 50px;
+   padding: 10px;
+ }
+
+.chatroom-name:hover {
+  background: #33C3F0;
+  border-radius: 5px;
+ }
+
+.chatroom-header {
+  flex: 0 1 auto;
+  font-size: 12px;
+  height: 20px;
+  padding: 10px;
+  border-bottom: 1px solid black;
+}
+
+.chatroom-content {
+  overflow: scroll;
+
+  display: flex;
+  flex-flow: column;
+  flex: 1 1 auto;
+  align-items: stretch;
+  padding: 10px;
+}
+
+.mine {
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px;
+  max-width: 50%;
+  flex: 0 1 auto;
+  align-self: flex-end;
+}
+
+.theirs {
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px;
+  max-width: 40%;
+  flex: 0 1 auto;
+  align-self: flex-start;
+}
+
+ .chatroom-footer {
+   flex: 0 1 auto;
+
+ }

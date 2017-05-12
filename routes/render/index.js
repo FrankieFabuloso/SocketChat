@@ -13,7 +13,8 @@ router.get('/home', function (req, res) {
   .then(results => {
     res.render('home', {
       user_chat_rooms: results[0],
-      chat_room_messages: results[1]
+      chat_room_messages: results[1],
+      user_id
     })
   })
 })

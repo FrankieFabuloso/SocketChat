@@ -1,25 +1,32 @@
 $(document).ready(function(){
-  $('#log_in_button').click( function() {
+  const logInButton = $('.log-in-button')
+  const signUpButton = $('.sign-up-button')
+  const logInForm = $('.form.form-body--log-in')
+  const signUpForm = $('.form.form-body--sign-up')
+  const logInFormCancelButton = $('.log-in-cancel-button')
+  const signUpFormCancelButton = $('.sign-up-cancel-button')
+
+  logInButton.click( function() {
     $(this).addClass('invisible')
-    $('#sign_up_button').addClass('invisible')
-    $('.form.form-body--log-in').removeClass('invisible')
+    signUpButton.addClass('invisible')
+    logInForm.removeClass('invisible')
   })
 
-  $('#sign_up_button').click( function() {
+  signUpButton.click( function() {
     $(this).addClass('invisible')
-    $('#log_in_button').addClass('invisible')
-    $('.form.form-body--sign-up').removeClass('invisible')
+    logInButton.addClass('invisible')
+    signUpForm.removeClass('invisible')
   })
 
-  $('#log_in_cancel_button').click( function() {
-    $('.form.form-body--log-in').addClass('invisible')
-    $('#log_in_button').removeClass('invisible')
-    $('#sign_up_button').removeClass('invisible')
+  logInFormCancelButton.click( function() {
+    logInForm.addClass('invisible')
+    logInButton.removeClass('invisible')
+    signUpButton.removeClass('invisible')
   })
 
-  $('#sign_up_cancel_button').click( function() {
-    $('.form.form-body--sign-up').addClass('invisible')
-    $('#log_in_button').removeClass('invisible')
-    $('#sign_up_button').removeClass('invisible')
+  signUpFormCancelButton.click( function() {
+    signUpForm.addClass('invisible')
+    logInButton.removeClass('invisible')
+    signUpButton.removeClass('invisible')
   })
 })

@@ -2,13 +2,19 @@ html
   head
     title
       | SocketChat
+    block prescripts
     script(src='https://code.jquery.com/jquery-3.1.1.min.js',integrity='sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=',crossorigin='anonymous')
     script(src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous")
-    script(src="/scripts/layout.js")
     script(src="/socket.io/socket.io.js")
+    script(src="https://use.fontawesome.com/b14bb03d41.js")
+    script(src="/scripts/layout.js")
+    script(src="/scripts/home.js")
+    script(src="/scripts/landing.js")
     link(rel='stylesheet', type='text/css', href='/css/normalize.css')
     link(rel='stylesheet', type='text/css', href='/css/skeleton.css')
+    link(rel='stylesheet', type='text/css', href='/css/stylesheet.css')
+    meta(name="viewport" content="initial-scale=1,width=device-width,maximum-scale=1")
     block scripts
   body
     block content
-    block footer
+    
