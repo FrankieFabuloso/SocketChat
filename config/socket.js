@@ -1,3 +1,4 @@
+const {User, Chatroom} = require('../database/db.js')
 
 module.exports = ( server ) => {
   const io = require('socket.io')(server)

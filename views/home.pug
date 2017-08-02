@@ -12,6 +12,7 @@ block content
           button.home--search_button
             i.fa.fa-search
       h5.row.post-navbar Chat
+        .new-chat.fa.fa-plus 
     .massages.container
       .row.message-container
         .three.columns.message-history--items
@@ -22,7 +23,6 @@ block content
           .chatroom-header
             div.conversation-content
               span.conversation-title
-                | Convo -
               span.current-conversation= chat_room_title || 'No Chats Yet :['
           .chatroom-content
             each message in chat_room_messages
@@ -31,4 +31,4 @@ block content
               else
                 .message_text.theirs= message.message_body
           .chatroom-footer
-            textarea.u-full-width(placeholder="Hi Dave …" id="newMessage")
+            textarea.u-full-width(placeholder="What's the 411?" id="newMessage")

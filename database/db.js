@@ -16,7 +16,7 @@ const GET_CHAT_ROOM_ID_BY_NAME = "SELECT id FROM chat_room WHERE name = $1"
 
 const CREATE_NEW_CHAT_ROOM ='INSERT INTO chat_room(name) VALUES ($1)'
 
-const SUBSCRIBE_TO_CHAT_ROOM ='INSERT INTO client_chat_room(client_id, chat_room_id) VALUES($1, $2)'
+const SUBSCRIBE_TO_CHAT_ROOM ='INSERT INTO client_chat_room(client_id, chat_room_id) VALUES($1, $2) RETURNING *'
 
 const ADD_NEW_MESSAGE = 'INSERT INTO message(chat_room_id, client_id, message_body) VALUES($1, $2, $3)'
 
@@ -28,11 +28,15 @@ const ADD_NEW_USER = 'INSERT INTO client( email, username, password, salt ) VALU
 
 const FIND_BY_USERNAME = 'SELECT * FROM client WHERE username = $1'
 
+const CREATE_NEW_CHATROOM = 'INSERT INTO chat_room( name ) VALUES ( $1 ) RETURNING *'
+
 const Chatroom = {
-  suscribe: (user_id, chat_room_id) => db.none(SUBSCRIBE_TO_CHAT_ROOM, [user_id, chat_room_id]),
+  subscribe: (user_id, chat_room_id) => db.one(SUBSCRIBE_TO_CHAT_ROOM, [user_id, chat_room_id]),
   unsubscribe: (user_id, chat_room_id) => db.none(UNSUBSCRIBE_FROM_CHATROOM, [user_id, chat_room_id]),
   getAllMessages: (chat_room_id) => db.any(GET_ALL_CHAT_ROOM_MESSAGES, [chat_room_id]),
-  getChatroomIDByName: (chat_room_name) => db.one( GET_CHAT_ROOM_ID_BY_NAME, [chat_room_name])
+  getChatroomIDByName: (chat_room_name) => db.one( GET_CHAT_ROOM_ID_BY_NAME, [chat_room_name]),
+  new: (chat_room_name, user_id) => db.one( CREATE_NEW_CHATROOM, [chat_room_name])
+    .then( newChatroom => Chatroom.subscribe( user_id, newChatroom.id))
 }
 
 const User = {

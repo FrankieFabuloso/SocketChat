@@ -46,7 +46,31 @@ const populateChatroom = ( messages ) => {
   loadAndPositionStartView()
 }
 
+const handleNewChatroom = ( event ) => {
+  const newChatroomIcon = $('.new-chat')
+  const newChatroom = $('<input></input>').addClass('new-chatroom--topic')
+  const user_id = $('.home').attr('data')
+  newChatroomIcon.addClass('invisible')
+  newChatroom.prependTo('div.message-history--items')
+  newChatroom.keypress( event => {
+    if( event.keyCode == 13 ) {
+      console.log('enter was pressed:')
+      $.ajax({
+        url: "http://localhost:3000/chatroom",
+        data: {
+          chatroom_name: event.target.value,
+          user: user_id },
+        method: "POST"
+      })
+        .done( (res) => {
+          newChatroom.remove()
+          $('<div></div>').text(event.target.value).addClass('chatroom-name').appendTo('div.message-history--items')
+          newChatroomIcon.removeClass('invisible')
+        })
+    }
+  })
 
+}
 
 
 // - - - - - DOM READY - - - - -
@@ -55,7 +79,11 @@ $(document).ready(function() {
 
   loadAndPositionStartView()
 
-  $('.chatroom-name').on('click', loadSelectedChatRoom)
+  $('.new-chat').on( 'click', ( event ) => {
+    handleNewChatroom( event )
+  })
+
+  $('div.message-history--items').on('click', '.chatroom-name', loadSelectedChatRoom)
 // socket stuff
   var socket = io.connect('http://localhost:3000');
     socket.on('connect', function(data) {
